@@ -1,0 +1,25 @@
+- Criar estrutura do projeto
+  Prisma
+  Typescript
+  Bcrypt - Criptografar senhas
+  JWT - Autenticação
+  Express
+  ts-node-dev
+
+- Comandos Yarn
+yarn add typescript ts-node-dev prisma @types/express @types/jsonwebtoken @types/bcrypt -D
+yarn add express bcrypt jsonwebtoken @prisma/client
+yarn tsc --init
+yarn prisma init
+
+
+- tsconfig.json
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true
+  }
+}

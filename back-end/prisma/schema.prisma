@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  email    String  @unique
+  senha    String
+  nome     String
+  endereco String
+  telefone String
+  cpf      String
+  github   String?
+
+  tipoConta TipoConta @default(ADMIN)
+
+  admin   Admin?  @relation(fields: [adminId], references: [id])
+  adminId String? @unique @db.ObjectId
+
+  empresa   Empresa? @relation(fields: [empresaId], references: [id])
+  empresaId String?  @unique @db.ObjectId
+
+  candidato   Candidato? @relation(fields: [candidatoId], references: [id])
+  candidatoId String?    @unique @db.ObjectId
+}
+
+model Admin {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  usuario Usuario[]
+}
+
+model Empresa {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  razaoSocial String
+  cnpj        String
+  Usuario     Usuario[]
+  Vaga        Vaga[]
+}
+
+model Candidato {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  usuario Usuario[]
+  vaga    Vaga?     @relation(fields: [vagaId], references: [id])
+  vagaId  String?   @db.ObjectId
+}
+
+model Vaga {
+  id                 String       @id @default(auto()) @map("_id") @db.ObjectId
+  cargo              String
+  descricao          String
+  empresa            Empresa      @relation(fields: [empresaId], references: [id])
+  empresaId          String       @db.ObjectId
+  requisitos         Requisitos[]
+  candidatos         Candidato[]
+  cidade             String
+  estado             String
+  formaContratacao   String
+  periodoContratacao DateTime
+  dataLimite         DateTime
+}
+
+type Requisitos {
+  requisito String
+  descricao String
+  perfil    Int
+  peso      Int
+}
+
+enum TipoConta {
+  CANDIDATO
+  ADMIN
+  EMPRESA
+}
