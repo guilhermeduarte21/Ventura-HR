@@ -14,6 +14,7 @@ import { FindUsuarioByIdController } from './modules/usuario/useCases/findUsuari
 import { UpdateUsuarioController } from './modules/usuario/useCases/updateUsuario/UpdateUsuarioController';
 import { FindUserEmpresaByIdController } from './modules/empresas/useCases/findUserEmpresaById/FindUserEmpresaByIdController';
 import { FindVagasEmpresaController } from './modules/vagas/useCases/findVagasEmpresa/FindVagasEmpresaController';
+import { UpdateVagaController } from './modules/vagas/useCases/updateVaga/UpdateVagaController';
 
 const routes = Router();
 
@@ -35,6 +36,7 @@ const createVagaController = new CreateVagaController();
 const findAllVagasController = new FindAllVagasController();
 const findVagaByIdController = new FindVagaByIdController();
 const findVagasEmpresaController = new FindVagasEmpresaController();
+const updateVagaController = new UpdateVagaController();
 
 //---AUTENTICACAO---//
 routes.post('/authenticate/', authenticateController.handle);
@@ -77,5 +79,6 @@ routes.post('/vagas/', ensureAuthenticate, createVagaController.handle);
 routes.get('/vagas/', findAllVagasController.handle);
 routes.get('/vaga/:id', findVagaByIdController.handle);
 routes.get('/vagas/:id', ensureAuthenticate, findVagasEmpresaController.handle);
+routes.put('/vaga/:id', ensureAuthenticate, updateVagaController.handle);
 
 export { routes };
